@@ -113,18 +113,13 @@ def plot_ichimoku(data,
 
     
     x = range(len(data))
-    red_where, green_where = list(), list()
     for i in data:
         if(not i.lead1 or not i.lead2):
             i.lead1 = 0
             i.lead2 = 0
-            red_where.append(False)
-            green_where.append(False)
-        else:
-            green_where.append(i.lead1 > i.lead2)
-            red_where.append(i.lead1 < i.lead2)
-
-    plt.fill_between(x, [i.lead1 for i in data], [i.lead2 for i in data], color='#EF9A9A50', where=red_where)
-    plt.fill_between(x, [i.lead1 for i in data], [i.lead2 for i in data], color='#A5D6A750', where=green_where)
+    lead1 = [i.lead1 for i in data]
+    lead2 = [i.lead2 for i in data]
+    plt.fill_between(x, lead1, lead2, color=lead2_color + '50', where=[i.lead1 > i.lead2 for i in data])
+    plt.fill_between(x, lead1, lead2, color=lead1_color +'50', where=[i.lead1 < i.lead2 for i in data])
     
     plt.show()
